@@ -230,6 +230,27 @@
     }
     .callout strong { color: #7a5200; }
 
+    /* ── OUTPUT INSIGHT ── */
+    .insight-box {
+      background: #eef6ff;
+      border: 1px solid #b8d8f8;
+      border-left: 4px solid var(--accent2);
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin: 16px 0 0;
+      font-size: .93rem;
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+    .insight-box .insight-title {
+      font-weight: bold;
+      color: var(--accent2);
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 6px;
+    }
+
     /* ── CODE BLOCK ── */
     pre {
       background: var(--code-bg);
@@ -274,6 +295,71 @@
     }
     .step p { margin: 0; }
 
+    /* ── WORKED EXAMPLE TRACE ── */
+    .trace-block {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 22px;
+      margin: 20px 0;
+    }
+    .trace-block .trace-title {
+      font-family: Arial, sans-serif;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 14px;
+      font-weight: bold;
+    }
+    .trace-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      font-family: 'Courier New', monospace;
+      font-size: .86rem;
+      background: var(--cream);
+    }
+    .trace-row .tr-t1 {
+      background: #d4edda;
+      color: #155724;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 34px;
+      text-align: center;
+    }
+    .trace-row .tr-t2 {
+      background: #cfe2ff;
+      color: #084298;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      min-width: 34px;
+      text-align: center;
+    }
+    .trace-row .tr-null {
+      background: #f8d7da;
+      color: #842029;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-style: italic;
+      min-width: 34px;
+      text-align: center;
+    }
+    .trace-row .tr-result {
+      margin-left: auto;
+      font-size: .78rem;
+      font-family: Arial, sans-serif;
+      color: var(--muted);
+    }
+    .trace-row.match { background: #d4edda22; }
+    .trace-row.no-match { background: #f8d7da22; }
+    .trace-row .tr-arrow { color: #aaa; font-size: 1rem; }
+
     /* ── TABLES ── */
     .tables-row {
       display: flex;
@@ -311,7 +397,7 @@
       border-top: 1px solid var(--border);
     }
     tr:nth-child(even) td { background: var(--cream); }
-    td.null-val { color: #c0392b; font-style: italic; }
+    td.null-val { color: #c0392b; font-style: italic; font-weight: bold; }
 
     .output-table { margin-top: 18px; }
     .output-label {
@@ -324,20 +410,22 @@
       letter-spacing: .08em;
     }
 
-    /* ── VENN DIAGRAMS ── */
-    .venn-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
     /* ── DIVIDER ── */
     hr.fancy {
       border: none;
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
       margin: 50px 0;
+    }
+
+    /* ── SUBHEADING ── */
+    .sub-h3 {
+      font-family: Georgia, serif;
+      font-size: 1.05rem;
+      margin: 28px 0 12px;
+      color: var(--ink);
+      border-left: 3px solid var(--accent2);
+      padding-left: 10px;
     }
 
     /* ── FOOTER ── */
@@ -364,7 +452,7 @@
 <header>
   <div class="breadcrumb">Database Concepts &rsaquo; SQL &rsaquo; Joins</div>
   <h1>A Complete Guide to <span>SQL Joins</span></h1>
-  <p class="subtitle">Everything you need to understand how tables connect — explained step by step with examples, diagrams, and real syntax.</p>
+  <p class="subtitle">Everything you need to understand how tables connect — explained step by step with examples, traced outputs, and real syntax.</p>
 </header>
 
 <div class="page-wrap">
@@ -459,7 +547,7 @@
 <span class="op">ON</span>     T1.col <span class="op">=</span> T2.col;
 </pre>
 
-      <h3 style="font-size:1.1rem;margin-bottom:12px;font-family:Georgia,serif;">How it works — step by step</h3>
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>Take one row from Table 1.</p></div>
         <div class="step"><div class="step-n">2</div><p>Compare it against <em>every</em> row in Table 2.</p></div>
@@ -481,6 +569,41 @@
           <table><tr><th>T1</th><th>T2</th></tr><tr><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td></tr><tr><td>2</td><td>2</td></tr></table>
         </div>
       </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">Row-by-row matching (T1.col = T2.col)</div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span>
+          <span class="tr-arrow">↔</span>
+          <span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → output row (1, 1)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span>
+          <span class="tr-arrow">↔</span>
+          <span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → output row (1, 1) &nbsp;<em style="color:#888;font-size:.8rem">2nd T1 row</em></span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span>
+          <span class="tr-arrow">↔</span>
+          <span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → output row (2, 2)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span>
+          <span class="tr-arrow">↔</span>
+          <span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → output row (2, 2) &nbsp;<em style="color:#888;font-size:.8rem">2nd T2 row</em></span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        T1 has <strong>two rows with value 1</strong>. T2 has <strong>one row with value 1</strong>. Each T1 row pairs with the one T2 match → <strong>2 output rows</strong> for value 1.<br>
+        T1 has <strong>one row with value 2</strong>. T2 has <strong>two rows with value 2</strong> → <strong>2 output rows</strong> for value 2.<br>
+        Total = <strong>4 rows</strong>. No unmatched rows appear because INNER JOIN silently drops them.
+      </div>
     </section>
 
     <!-- 2. LEFT JOIN -->
@@ -501,6 +624,7 @@
 <span class="op">ON</span>     T1.col <span class="op">=</span> T2.col;
 </pre>
 
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>Take one row from the <strong>left</strong> table (T1).</p></div>
         <div class="step"><div class="step-n">2</div><p>Compare against every row in T2.</p></div>
@@ -521,6 +645,37 @@
           <div class="output-label">✅ Result</div>
           <table><tr><th>T1</th><th>T2</th></tr><tr><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td></tr><tr><td>2</td><td>2</td></tr><tr><td>3</td><td class="null-val">NULL</td></tr></table>
         </div>
+      </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">Row-by-row — every T1 row is guaranteed to appear</div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1) &nbsp;<em style="color:#888;font-size:.8rem">2nd T1 row</em></span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2) &nbsp;<em style="color:#888;font-size:.8rem">2nd T2 row</em></span>
+        </div>
+        <div class="trace-row no-match">
+          <span class="tr-t1">T1=3</span><span class="tr-arrow">↔</span><span class="tr-null">none</span>
+          <span class="tr-result">⚠️ No match → (3, NULL) — kept because it's in T1</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        Values <strong>1</strong> and <strong>2</strong> matched just like INNER JOIN — same 4 rows.<br>
+        Value <strong>3</strong> exists only in T1 and has <em>no match in T2</em>, but LEFT JOIN guarantees every T1 row appears → it shows up with <code>NULL</code> on the right.<br>
+        Total = <strong>5 rows</strong> (one more than INNER JOIN because of the unmatched T1 row).
       </div>
 
       <div class="callout">
@@ -546,6 +701,7 @@
 <span class="op">ON</span>     T1.col <span class="op">=</span> T2.col;
 </pre>
 
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>Take one row from the <strong>right</strong> table (T2).</p></div>
         <div class="step"><div class="step-n">2</div><p>Compare against every row in T1.</p></div>
@@ -567,6 +723,38 @@
           <table><tr><th>T1</th><th>T2</th></tr><tr><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td></tr><tr><td>2</td><td>2</td></tr><tr><td class="null-val">NULL</td><td>4</td></tr></table>
         </div>
       </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">Row-by-row — every T2 row is guaranteed to appear</div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1) &nbsp;<em style="color:#888;font-size:.8rem">2nd T1 row</em></span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2) &nbsp;<em style="color:#888;font-size:.8rem">2nd T2 row</em></span>
+        </div>
+        <div class="trace-row no-match">
+          <span class="tr-null">none</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=4</span>
+          <span class="tr-result">⚠️ No match → (NULL, 4) — kept because it's in T2</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        Values <strong>1</strong> and <strong>2</strong> matched and produced 4 rows (same as before).<br>
+        Value <strong>4</strong> exists only in T2 and has no match in T1 → appears with <code>NULL</code> on the left.<br>
+        Value <strong>3</strong> from T1 is <em>dropped</em> — RIGHT JOIN only guarantees T2 rows survive.<br>
+        Total = <strong>5 rows</strong>.
+      </div>
     </section>
 
     <!-- 4. FULL OUTER JOIN -->
@@ -587,6 +775,7 @@
 <span class="op">ON</span>     T1.col <span class="op">=</span> T2.col;
 </pre>
 
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>Perform an INNER JOIN — get all matching rows.</p></div>
         <div class="step"><div class="step-n">2</div><p>Add unmatched rows from the <strong>left</strong> table (right side = NULL).</p></div>
@@ -615,6 +804,42 @@
           </table>
         </div>
       </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">Phase 1: INNER JOIN matches + Phase 2 & 3: unmatched rows from both sides</div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=1</span>
+          <span class="tr-result">✅ Match → (1, 1)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=2</span>
+          <span class="tr-result">✅ Match → (2, 2)</span>
+        </div>
+        <div class="trace-row no-match">
+          <span class="tr-t1">T1=3</span><span class="tr-arrow">↔</span><span class="tr-null">none</span>
+          <span class="tr-result">⚠️ T1 unmatched → (3, NULL)</span>
+        </div>
+        <div class="trace-row no-match">
+          <span class="tr-null">none</span><span class="tr-arrow">↔</span><span class="tr-t2">T2=4</span>
+          <span class="tr-result">⚠️ T2 unmatched → (NULL, 4)</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        Rows <strong>1</strong> and <strong>2</strong> matched → appear just like INNER JOIN (4 rows).<br>
+        Row <strong>3</strong> exists only in T1 → right side is NULL (like LEFT JOIN).<br>
+        Row <strong>4</strong> exists only in T2 → left side is NULL (like RIGHT JOIN).<br>
+        Total = <strong>6 rows</strong> — you lose nothing from either table.
+      </div>
     </section>
 
     <!-- 5. NATURAL JOIN -->
@@ -635,6 +860,7 @@
 <span class="cm">-- SQL finds common column names automatically</span>
 </pre>
 
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>SQL inspects both table schemas and finds column names they share (e.g., <code>id</code>).</p></div>
         <div class="step"><div class="step-n">2</div><p>Performs an INNER JOIN on those shared columns automatically.</p></div>
@@ -663,6 +889,34 @@
           <table><tr><th>id</th><th>name</th><th>salary</th></tr><tr><td>2</td><td>B</td><td>5000</td></tr><tr><td>3</td><td>C</td><td>6000</td></tr></table>
         </div>
       </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">Auto-detected join column: id — behaves like INNER JOIN on id</div>
+        <div class="trace-row no-match">
+          <span class="tr-t1">id=1</span><span class="tr-arrow">↔</span><span class="tr-null">none</span>
+          <span class="tr-result">❌ id=1 not in T2 → dropped</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">id=2</span><span class="tr-arrow">↔</span><span class="tr-t2">id=2</span>
+          <span class="tr-result">✅ Match → (2, B, 5000)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">id=3</span><span class="tr-arrow">↔</span><span class="tr-t2">id=3</span>
+          <span class="tr-result">✅ Match → (3, C, 6000)</span>
+        </div>
+        <div class="trace-row no-match">
+          <span class="tr-null">none</span><span class="tr-arrow">↔</span><span class="tr-t2">id=4</span>
+          <span class="tr-result">❌ id=4 not in T1 → dropped</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        SQL auto-detected <code>id</code> as the shared column name.<br>
+        Only <strong>id=2</strong> and <strong>id=3</strong> exist in both tables → those 2 rows appear.<br>
+        <strong>id=1</strong> (only in T1) and <strong>id=4</strong> (only in T2) are dropped — same behaviour as INNER JOIN.<br>
+        Notice: only <strong>one</strong> <code>id</code> column appears in the result (duplicates auto-removed).
+      </div>
     </section>
 
     <!-- 6. CROSS JOIN -->
@@ -687,6 +941,7 @@
         <strong>Careful with large tables!</strong> A CROSS JOIN on two tables with 1,000 rows each produces 1,000,000 rows. Always verify your intent before running this on large datasets.
       </div>
 
+      <h3 class="sub-h3">How it works — step by step</h3>
       <div class="steps">
         <div class="step"><div class="step-n">1</div><p>Take the first row from T1.</p></div>
         <div class="step"><div class="step-n">2</div><p>Pair it with <em>every</em> row in T2.</p></div>
@@ -706,6 +961,42 @@
           <div class="output-label">✅ Result (2 × 3 = 6 rows)</div>
           <table><tr><th>num</th><th>letter</th></tr><tr><td>1</td><td>A</td></tr><tr><td>1</td><td>B</td></tr><tr><td>1</td><td>C</td></tr><tr><td>2</td><td>A</td></tr><tr><td>2</td><td>B</td></tr><tr><td>2</td><td>C</td></tr></table>
         </div>
+      </div>
+
+      <h3 class="sub-h3">Worked Trace — How each output row is produced</h3>
+      <div class="trace-block">
+        <div class="trace-title">No matching condition — every T1 row pairs with every T2 row</div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">×</span><span class="tr-t2">T2=A</span>
+          <span class="tr-result">→ (1, A)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">×</span><span class="tr-t2">T2=B</span>
+          <span class="tr-result">→ (1, B)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=1</span><span class="tr-arrow">×</span><span class="tr-t2">T2=C</span>
+          <span class="tr-result">→ (1, C)</span>
+        </div>
+        <div class="trace-row match" style="border-top: 1px dashed var(--border); margin-top:6px; padding-top:10px;">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">×</span><span class="tr-t2">T2=A</span>
+          <span class="tr-result">→ (2, A)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">×</span><span class="tr-t2">T2=B</span>
+          <span class="tr-result">→ (2, B)</span>
+        </div>
+        <div class="trace-row match">
+          <span class="tr-t1">T1=2</span><span class="tr-arrow">×</span><span class="tr-t2">T2=C</span>
+          <span class="tr-result">→ (2, C)</span>
+        </div>
+      </div>
+      <div class="insight-box">
+        <div class="insight-title">📖 How to read this output</div>
+        Row <strong>1</strong> from T1 pairs with every row in T2 (A, B, C) → 3 rows.<br>
+        Row <strong>2</strong> from T1 does the same → 3 more rows.<br>
+        Total = <strong>2 × 3 = 6 rows</strong>. There's no matching logic — every combination is always included.<br>
+        Common use: generating test data, or all possible combinations like sizes × colours for a product catalogue.
       </div>
     </section>
 
@@ -751,7 +1042,6 @@
 </footer>
 
 <script>
-  // Highlight active nav item on scroll
   const sections = document.querySelectorAll('.section[id]');
   const navLinks = document.querySelectorAll('#toc a');
 
